@@ -1,0 +1,48 @@
+<div class="rows">
+    <form action="/admin" method="get">
+        <h1 style="text-align: center; padding-top:1em;"><strong>ADMIN</strong></h1>
+
+        <div class="enough">
+            <p class="blue" style="display:inline-block">More Waiters Needed</p>
+            <p class="green" style="display:inline-block">Enough Waiters</p>
+            <p class="red" style="display:inline-block">Too Many Waiters</p>
+
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    {{#each shifts}}
+                    <th class="{{color}}">{{day}}</th>
+                    {{/each}}
+                </tr>
+            </thead>
+
+
+            <tbody>
+                <tr>
+                    {{#each shifts}}
+                    <td>
+                        <ul>
+                            {{#each waiters}}
+                            <li>{{this}}</li>
+                            {{/each}}
+                        </ul>
+
+                    </td>
+                    {{/each}}
+                </tr>
+            </tbody>
+        </table>
+
+    </form>
+
+    <form action="/reset" method="get">
+        <div class="reset">
+            <button type="submit">reset</button>
+            <br>
+            <button  type="submit"><a href="/waiters">waiters</a></button>
+
+        </div>
+
+    </form>
+</div>

@@ -1,0 +1,39 @@
+{
+  "name": "waiters_webapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test",
+    "start": "node index.js"
+    
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dev": "^0.1.3",
+    "express": "^4.17.1",
+    "express-flash": "^0.0.2",
+    "express-handlebars": "^5.2.0",
+    "express-session": "^1.17.1",
+    "pg": "^8.4.2"
+  },
+  "devDependencies": {
+    "mocha": "^8.2.1"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node index.js"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kagiso101/waiters_webapp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kagiso101/waiters_webapp/issues"
+  },
+  "homepage": "https://github.com/kagiso101/waiters_webapp#readme"
+}

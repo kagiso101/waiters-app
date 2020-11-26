@@ -1,0 +1,50 @@
+<div class="container">
+        <form action="/waiters/{{this.name}}" method="POST">
+                <div class="content">
+
+                        <p>Hello, {{this.name}} please select days you can work from the options provided below</p>
+
+
+                        <div class="boxes">
+
+
+                                {{#each day}}
+                                <input type="checkbox" class="dayCheck" name="days" value="{{this.id}}"  {{this.state}}>
+                                <label class="days" for="all">{{this.day}}</label>
+                                {{/each}}
+
+                        </div>
+                        <div class="error">
+                                {{#if messages}}
+                                {{messages.error}}
+                                {{/if}}
+                        </div>
+
+                        <div class="subtn">
+
+                                <button type="submit">Submit</button>
+                        </div>
+<div class="instructions">
+     <p> <strong>Please Follow The Instructions Below:</strong></p>  
+     <ol>
+             <li>1. Enter Your Name In The Url</li>
+             <br>
+             <li>2. Select 3 Days To Work On And Submit</li>
+             <br>
+                          <li>3. Vibe Out And Have Fun</li>
+
+     </ol>
+</div>
+        </form>
+</div>
+
+</div>
+
+
+<script>
+        var errors = document.querySelector(".error")
+
+        setTimeout(function () {
+                errors.innerHTML = ""
+        }, 2000)
+</script>

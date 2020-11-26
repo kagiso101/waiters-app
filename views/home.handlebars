@@ -1,0 +1,42 @@
+<div class="container">
+    <img src="coffee.jpg" width="100%" height="300em" alt="waiters shop">
+    <div class="content1">
+        <div class="w3-bar w3-black">
+            <button style="float:left;" class="w3-bar-item w3-button" onclick="openCity('London')"><a
+                    href="/waiters"><strong>Waiters</strong></a></button>
+            {{!-- <button style="float:right;" class="w3-bar-item w3-button" onclick="openCity('Paris')"><a
+                    href="/admin"><strong>Admin</strong></a></button> --}}
+        </div>
+
+        <div id="London" class="w3-container city">
+            <h2><strong></strong></h2>
+
+
+        </div>
+
+        <div id="Paris" class="w3-container city" style="display:none">
+            <h2><strong></strong></h2>
+
+        </div>
+        <div class="main">
+            <h3>Urban Cafe</h3>
+            <p>Cape Town is a coffee fan’s dream. Head into the City Bowl and surrounding areas and you’re bound to find
+                a coffee shop on every corner. So, naturally, it can be difficult for a coffee shop to set itself apart
+                from the rest. Here are some that have done just that by offering customers more than just coffee.
+
+
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openCity(cityName) {
+        var i;
+        var x = document.getElementsByClassName("city");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        document.getElementById(cityName).style.display = "block";
+    }
+</script>
