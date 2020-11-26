@@ -19,12 +19,12 @@ let app = express();
 //instantiate 
 
 var waiters = Waiters(pool)
-// initialise session middleware - flash-express depends on it
 //setup handlebars ,Body-parser and public
 app.engine('handlebars', exphbs({ layoutsDir: './views/layouts' }));
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
+// initialise session middleware - flash-express depends on it
 app.use(session({
     secret: 'my express flash string',
     resave: false,
