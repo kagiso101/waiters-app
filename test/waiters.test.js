@@ -46,7 +46,7 @@ describe("The Waiters function", async function () {
         await waiters.addName(name)
         await waiters.addName(name2)
 
-        assert.deepEqual([{ name: 'Kagiso' }, { name: 'Jill' }], await waiters.allWaiters());
+        assert.deepEqual([{ name: 'Kagiso' }], await waiters.allWaiters());
     });
 
 
