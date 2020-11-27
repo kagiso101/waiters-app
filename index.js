@@ -4,8 +4,8 @@ var exphbs = require('express-handlebars');//to render templates
 const bodyParser = require('body-parser');//require body parser for htm functionality
 const flash = require('express-flash');
 const session = require('express-session');
-let Waiters = require('./waiters');
-const Routes = require('./routes')
+var Waiters = require('./waiters');
+var Routes = require('./routes')
 
 const pg = require("pg");
 const Pool = pg.Pool;
@@ -17,8 +17,8 @@ const pool = new Pool({
 
 //instantiate 
 let app = express();
-var waiters = Waiters(pool)
-var routes = Routes(waiters)
+const waiters = Waiters(pool)
+const routes = Routes(waiters)
 
 
 //setup handlebars ,Body-parser and public
