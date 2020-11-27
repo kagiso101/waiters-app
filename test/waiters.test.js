@@ -32,7 +32,7 @@ describe("The Waiters function", async function () {
         await waiters.addName(name)
 
 
-        assert.deepEqual([{ name: 'Kagiso' }, await waiters.allWaiters());
+        assert.deepEqual([{ name: 'Kagiso' }], await waiters.allWaiters());
     });
 
 
