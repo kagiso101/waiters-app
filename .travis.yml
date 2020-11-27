@@ -1,7 +1,7 @@
 language: node_js
 
 env:
-  - DATABASE_URL=postgresql://postgres@localhost:5432/waiters_test
+  - DATABASE_URL=postgresql://postgres@localhost:5432/waiters
 
 node_js:  
   - "12.18.3"
