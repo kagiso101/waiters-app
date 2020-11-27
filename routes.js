@@ -14,9 +14,7 @@ module.exports = function waiterRoutes(waiters) {
             const day = await waiters.days()
             const days = req.body.days
 
-            res.render('waiters', {
-                day
-            })
+            res.render('waiters')
 
         } catch (err) {
             next(err);
@@ -29,7 +27,7 @@ module.exports = function waiterRoutes(waiters) {
 
             if (days === undefined) {
                 req.flash('error', 'Please input your name in the url and select workings days above!')
-            } else if (days.length < 3) {
+            } else if (days.length < 2) {
                 req.flash('error', 'Please select 3 workings days!')
 
             }
@@ -78,17 +76,19 @@ module.exports = function waiterRoutes(waiters) {
 
             if (days == undefined) {
                 req.flash('error', 'Please select workings days above!')
-            } else if (days.length < 3) {
+            } else if (days.length < 2) {
                 req.flash('error', 'Please select 3 workings days!')
 
-            }
+            }else{
+                await waiters.addName(user)
+                await waiters.addShift(user, days)
+                req.flash('success', 'Successful!')
 
-            await waiters.addName(user)
-            await waiters.addShift(user, days)
-            req.flash('success', 'Successful!')
+            }
             const day = await waiters.waiterShift(user)
             var uid = await waiters.getUserId(user)
             await waiters.eachShifts(uid)
+
             res.render('waiters', {
                 name: user,
                 day,
@@ -116,8 +116,7 @@ module.exports = function waiterRoutes(waiters) {
         try {
             const day = await waiters.days()
             const shifts = await waiters.shiftsSelected()
-
-
+            
             await waiters.reset()
             res.render('admin', {
                 day,

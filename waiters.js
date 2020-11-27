@@ -1,4 +1,4 @@
-module.exports =  function (pool) {
+module.exports = function (pool) {
 
     //adds name to waiters table 
     async function addName(name) {
@@ -9,7 +9,7 @@ module.exports =  function (pool) {
 
             if (rowCount === 0) {
                 const adding = await pool.query(`insert into waiters(name) values($1)`, [name])
-            } return 
+            } return
         }
     }
 
@@ -26,7 +26,6 @@ module.exports =  function (pool) {
             //looping through days selected
 
             await pool.query(`delete from shifts days_selected where waiter_id = $1`, [waiterId])
-            // await pool.query(`update shifts set days_selected = $1 where waiter_id = $2;`, [selectedDays, waiterId])
             for (var i = 0; i < days.length; i++) {
                 var selectedDays = days[i]
 
@@ -39,7 +38,8 @@ module.exports =  function (pool) {
     }
 
     async function getUserShifts(userId) {
-        const userShift = await pool.query(`select name, day from shifts join waiters on shifts.waiter_id = waiters.id 
+        const userShift = await pool.query(`select name, day from shifts 
+        join waiters on shifts.waiter_id = waiters.id 
         join days on shifts.days_selected = days.id where waiter_id = $1`, [userId])
         return userShift.rows
     }
@@ -51,7 +51,7 @@ module.exports =  function (pool) {
         return nameCheck.rows[0].id
     }
 
-
+    //keeps the buttons checked 
     async function waiterShift(name) {
         const userId = await getUserId(name)
         const weekDay = await days();
@@ -91,12 +91,13 @@ module.exports =  function (pool) {
             //gives all days of week
             var workingDay = allDays[i];
 
-            const sql = `select name from shifts join waiters on shifts.waiter_id = waiters.id 
+            //gets all waiters who selected specific day
+            const dayCheck = await pool.query(`select name from shifts join
+             waiters on shifts.waiter_id = waiters.id 
             join days on shifts.days_selected = days.id 
-                where days_selected = $1`;
-
-            const dayCheck = await pool.query(sql, [workingDay.id])
+                where days_selected = $1`, [workingDay.id])
             const waitersForDay = dayCheck.rows;
+
             workingDay.waiters = waitersForDay.map((w) => w.name);
 
             if (workingDay.waiters.length < 3) {
@@ -118,8 +119,10 @@ module.exports =  function (pool) {
 
     async function eachShifts(id) {
 
-        const eachOf = await pool.query(`select * from days join shifts on days.id = shifts.days_selected where waiter_id = $1`, [id])
-      
+        const eachOf = await pool.query(`select * from days 
+        join shifts on days.id = shifts.days_selected
+         where waiter_id = $1`, [id])
+
         return eachOf.rows
     }
     async function reset() {
