@@ -4,8 +4,8 @@ var exphbs = require('express-handlebars');//to render templates
 const bodyParser = require('body-parser');//require body parser for htm functionality
 const flash = require('express-flash');
 const session = require('express-session');
-let Waiters = require("./waiters");
-// const Routes = require('./routes')
+let Waiters = require('./waiters');
+const Routes = require('./routes')
 
 const pg = require("pg");
 const Pool = pg.Pool;
@@ -13,12 +13,14 @@ const connectionString = process.env.DATABASE_URL || 'postgresql://kagiso:123@lo
 const pool = new Pool({
     connectionString
 });
-let app = express();
 
 
 //instantiate 
-
+let app = express();
 var waiters = Waiters(pool)
+var routes = Routes(waiters)
+
+
 //setup handlebars ,Body-parser and public
 app.engine('handlebars', exphbs({ layoutsDir: './views/layouts' }));
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
@@ -42,117 +44,13 @@ app.use(bodyParser.json())
 
 
 //renders home
-app.get('/', async function (req, res) {
-    res.render('home')
-})
-
-
-app.get('/waiters', async function (req, res) {
-    const day = await waiters.days()
-    const days = req.body.days
-
-    res.render('waiters', {
-        day
-    })
-
-})
-
-app.post('/waiters', async function (req, res) {
-    const day = await waiters.days()
-    const days = req.body.days
-
-    if (days === undefined) {
-        req.flash('error', 'Please input your name in the url and select workings days above!')
-    }else if(days.length < 3){
-        req.flash('error', 'Please select 3 workings days!')
-
-    }
-
-    // if (days.length < 3) {
-    //     req.flash('error', 'Please select 3 days!')
-    // }
-
-    res.render('waiters', {
-        day
-    })
-
-})
-
-//Show waiters a screen where they can select the days they can work
-app.get('/waiters/:username', async function (req, res) {
-    const days = req.body.days
-    const day = await waiters.days()
-    const user = req.params.username
-
-
-    await waiters.addName(user)
-
-    await waiters.waiterShift(user)
-
-    var uid = await waiters.getUserId(user)
-    const personShift = await waiters.eachShifts(uid)
-
-    day.forEach(element => {
-        personShift.forEach(eachPers => {
-            if (eachPers.days_selected === element.id) {
-                element.state = "checked"
-            }
-        })
-    });
-
-    res.render('waiters', {
-        day,
-        name: user
-    })
-})
-
-
-app.post('/waiters/:username', async function (req, res) {
-    const user = req.params.username
-    const days = req.body.days
-
-    if (days == undefined) {
-        req.flash('error', 'Please select workings days above!')
-    }else if(days.length < 3){
-        req.flash('error', 'Please select 3 workings days!')
-
-    }
-
-    await waiters.addName(user)
-    await waiters.addShift(user, days)
-
-    const day = await waiters.waiterShift(user)
-    var uid = await waiters.getUserId(user)
-    await waiters.eachShifts(uid)
-    res.render('waiters', {
-        name: user,
-        day,
-
-    })
-})
-
-app.get('/admin', async function (req, res) {
-    const day = await waiters.days()
-    const shifts = await waiters.shiftsSelected()
-
-
-    res.render('admin', {
-        day,
-        shifts
-    })
-})
-
-app.get('/reset', async function (req, res) {
-    const day = await waiters.days()
-    const shifts = await waiters.shiftsSelected()
-
-
-    await waiters.reset()
-    res.render('admin', {
-        day,
-        shifts
-    })
-})
+app.get('/', routes.home)
+app.get('/waiters', routes.waiterGet)
+app.post('/waiters', routes.waiterPost)
+app.get('/waiters/:username',routes.getDays)
+app.post('/waiters/:username', routes.postDays)
+app.get('/admin', routes.admin)
+app.get('/reset', routes.reset)
 
 
 //Port setup

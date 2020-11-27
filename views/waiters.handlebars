@@ -19,6 +19,11 @@
                                 {{messages.error}}
                                 {{/if}}
                         </div>
+                         <div class="success">
+                                {{#if messages}}
+                                {{messages.success}}
+                                {{/if}}
+                        </div>
 
                         <div class="subtn">
 
@@ -43,6 +48,12 @@
 
 <script>
         var errors = document.querySelector(".error")
+
+        setTimeout(function () {
+                errors.innerHTML = ""
+        }, 2000)
+
+        var errors = document.querySelector(".success")
 
         setTimeout(function () {
                 errors.innerHTML = ""
