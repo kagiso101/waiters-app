@@ -9,7 +9,7 @@
 
 
                                 {{#each day}}
-                                <input type="checkbox" class="dayCheck" name="days" value="{{this.id}}"  {{this.state}}>
+                                <input type="checkbox" class="dayCheck" name="days" value="{{this.id}}" {{this.state}}>
                                 <label class="days" for="all">{{this.day}}</label>
                                 {{/each}}
 
@@ -19,12 +19,14 @@
                                 {{messages.error}}
                                 {{/if}}
                         </div>
-                         <div class="success">
+                        <div class="success">
                                 {{#if messages}}
                                 {{messages.success}}
                                 {{/if}}
                         </div>
 
+
+                     
                         <div class="subtn">
 
                                 <button type="submit">Submit</button>

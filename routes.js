@@ -74,17 +74,10 @@ module.exports = function waiterRoutes(waiters) {
             const user = req.params.username
             const days = req.body.days
 
-            if (days == undefined) {
-                req.flash('error', 'Please select workings days above!')
-            } else if (days.length < 2) {
-                req.flash('error', 'Please select 3 workings days!')
+            await waiters.addName(user)
+            await waiters.addShift(user, days)
+            req.flash('success', 'Successful!')
 
-            }else{
-                await waiters.addName(user)
-                await waiters.addShift(user, days)
-                req.flash('success', 'Successful!')
-
-            }
             const day = await waiters.waiterShift(user)
             var uid = await waiters.getUserId(user)
             await waiters.eachShifts(uid)
@@ -116,7 +109,7 @@ module.exports = function waiterRoutes(waiters) {
         try {
             const day = await waiters.days()
             const shifts = await waiters.shiftsSelected()
-            
+
             await waiters.reset()
             res.render('admin', {
                 day,
